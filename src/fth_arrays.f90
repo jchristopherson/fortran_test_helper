@@ -109,6 +109,73 @@ contains
     end subroutine
 
 ! ******************************************************************************
+! COMPLEX64 SUPPORT
+! ------------------------------------------------------------------------------
+    module subroutine create_c64_array(x, xmin, xmax)
+        ! Arguments
+        complex(real64), intent(out) :: x(:)
+        complex(real64), intent(in), optional :: xmin, xmax
+
+        ! Local Variables
+        complex(real64), parameter :: one = (1.0d0, 0.0d0)
+        real(real64), parameter :: tol = 0.99d0
+        complex(real64) :: low, high
+        real(real64), allocatable, dimension(:) :: xr, xi
+        integer(int32) :: n
+
+        ! Process
+        n = size(x)
+        allocate(xr(n))
+        allocate(xi(n))
+        if (present(xmin)) then
+            low = xmin
+        else
+            low = -one
+        end if
+        if (present(xmax)) then
+            high = xmax
+        else
+            high = one
+        end if
+        call random_number(xr)
+        call random_number(xi)
+        x = tol * (low + (high + one - low) * cmplx(xr, xi, real64))
+    end subroutine
+
+! ------------------------------------------------------------------------------
+    module subroutine create_c64_matrix(x, xmin, xmax)
+        ! Arguments
+        complex(real64), intent(out) :: x(:,:)
+        complex(real64), intent(in), optional :: xmin, xmax
+
+        ! Local Variables
+        complex(real64), parameter :: one = (1.0d0, 0.0d0)
+        real(real64), parameter :: tol = 0.99d0
+        complex(real64) :: low, high
+        real(real64), allocatable, dimension(:,:) :: xr, xi
+        integer(int32) :: m, n
+
+        ! Process
+        m = size(x, 1)
+        n = size(x, 2)
+        allocate(xr(m, n))
+        allocate(xi(m, n))
+        if (present(xmin)) then
+            low = xmin
+        else
+            low = -one
+        end if
+        if (present(xmax)) then
+            high = xmax
+        else
+            high = one
+        end if
+        call random_number(xr)
+        call random_number(xi)
+        x = tol * (low + (high + one - low) * cmplx(xr, xi, real64))
+    end subroutine
+
+! ******************************************************************************
 ! COMPLEX32 SUPPORT
 ! ------------------------------------------------------------------------------
     module subroutine create_c32_array(x, xmin, xmax)

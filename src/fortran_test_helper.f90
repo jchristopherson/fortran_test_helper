@@ -275,6 +275,8 @@ module fortran_test_helper
         module procedure :: create_r32_matrix
         module procedure :: create_r64_array
         module procedure :: create_r64_matrix
+        module procedure :: create_c64_array
+        module procedure :: create_c64_matrix
         module procedure :: create_c32_array
         module procedure :: create_c32_matrix
         module procedure :: create_i16_array
@@ -300,10 +302,19 @@ module fortran_test_helper
             real(real64), intent(out) :: x(:)
             real(real64), intent(in), optional :: xmin, xmax
         end subroutine
-
         module subroutine create_r64_matrix(x, xmin, xmax)
             real(real64), intent(out) :: x(:,:)
             real(real64), intent(in), optional :: xmin, xmax
+        end subroutine
+
+        module subroutine create_c64_array(x, xmin, xmax)
+            complex(real64), intent(out) :: x(:)
+            complex(real64), intent(in), optional :: xmin, xmax
+        end subroutine
+
+        module subroutine create_c64_matrix(x, xmin, xmax)
+            complex(real64), intent(out) :: x(:,:)
+            complex(real64), intent(in), optional :: xmin, xmax
         end subroutine
 
         module subroutine create_c32_array(x, xmin, xmax)
