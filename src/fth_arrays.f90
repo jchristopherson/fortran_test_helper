@@ -29,15 +29,18 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine create_r32_matrix(x, xmin, xmax)
+    module subroutine create_r32_matrix(x, xmin, xmax, mtype)
         ! Arguments
         real(real32), intent(out) :: x(:,:)
         real(real32), intent(in), optional :: xmin, xmax
+        integer(int32), intent(in), optional :: mtype
 
         ! Local Variables
+        real(real32), parameter :: zero = 0.0
         real(real32), parameter :: one = 1.0
         real(real32), parameter :: tol = 0.99
         real(real32) :: low, high
+        integer(int32) :: i, j, mt, m, n, mn
 
         ! Process
         if (present(xmin)) then
@@ -50,8 +53,43 @@ contains
         else
             high = one
         end if
+        if (present(mtype)) then
+            mt = mtype
+        else
+            mt = GENERAL_MATRIX
+        end if
+        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
         call random_number(x)
         x = tol * (low + (high + one - low) * x)
+
+        m = size(x, 1)
+        n = size(x, 2)
+        mn = min(m, n)
+        select case (mt)
+        case (SYMMETRIC_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = x(j,i)
+                end do
+            end do
+        case (UPPER_TRIANGULAR_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
+            end do
+        case (LOWER_TRIANGULAR_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+            end do
+        case (POSITIVE_DEFINITE_MATRIX)
+            x = (x + transpose(x)) / 2
+            do i = 1, mn
+                x(i,i) = x(i,i) + mn * abs(high)
+            end do
+        end select
     end subroutine
 
 ! ******************************************************************************
@@ -83,15 +121,18 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine create_r64_matrix(x, xmin, xmax)
+    module subroutine create_r64_matrix(x, xmin, xmax, mtype)
         ! Arguments
         real(real64), intent(out) :: x(:,:)
         real(real64), intent(in), optional :: xmin, xmax
+        integer(int32), intent(in), optional :: mtype
 
         ! Local Variables
+        real(real64), parameter :: zero = 0.0d0
         real(real64), parameter :: one = 1.0d0
         real(real32), parameter :: tol = 0.99d0
         real(real64) :: low, high
+        integer(int32) :: i, j, mt, m, n, mn
 
         ! Process
         if (present(xmin)) then
@@ -104,8 +145,43 @@ contains
         else
             high = one
         end if
+        if (present(mtype)) then
+            mt = mtype
+        else
+            mt = GENERAL_MATRIX
+        end if
+        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
         call random_number(x)
         x = tol * (low + (high + one - low) * x)
+        
+        m = size(x, 1)
+        n = size(x, 2)
+        mn = min(m, n)
+        select case (mt)
+        case (SYMMETRIC_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = x(j,i)
+                end do
+            end do
+        case (UPPER_TRIANGULAR_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
+            end do
+        case (LOWER_TRIANGULAR_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+            end do
+        case (POSITIVE_DEFINITE_MATRIX)
+            x = (x + transpose(x)) / 2
+            do i = 1, mn
+                x(i,i) = x(i,i) + mn * abs(high)
+            end do
+        end select
     end subroutine
 
 ! ******************************************************************************
@@ -143,17 +219,19 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine create_c64_matrix(x, xmin, xmax)
+    module subroutine create_c64_matrix(x, xmin, xmax, mtype)
         ! Arguments
         complex(real64), intent(out) :: x(:,:)
         complex(real64), intent(in), optional :: xmin, xmax
+        integer(int32), intent(in), optional :: mtype
 
         ! Local Variables
+        complex(real64), parameter :: zero = (0.0d0, 0.0d0)
         complex(real64), parameter :: one = (1.0d0, 0.0d0)
         real(real64), parameter :: tol = 0.99d0
         complex(real64) :: low, high
         real(real64), allocatable, dimension(:,:) :: xr, xi
-        integer(int32) :: m, n
+        integer(int32) :: i, j, m, n, mt, mn
 
         ! Process
         m = size(x, 1)
@@ -170,9 +248,44 @@ contains
         else
             high = one
         end if
+        if (present(mtype)) then
+            mt = mtype
+        else
+            mt = GENERAL_MATRIX
+        end if
+        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
         call random_number(xr)
         call random_number(xi)
         x = tol * (low + (high + one - low) * cmplx(xr, xi, real64))
+
+        m = size(x, 1)
+        n = size(x, 2)
+        mn = min(m, n)
+        select case (mt)
+        case (SYMMETRIC_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = x(j,i)
+                end do
+            end do
+        case (UPPER_TRIANGULAR_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
+            end do
+        case (LOWER_TRIANGULAR_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+            end do
+        case (POSITIVE_DEFINITE_MATRIX)
+            x = (x + transpose(conjg(x))) / 2
+            do i = 1, mn
+                x(i,i) = x(i,i) + mn * abs(high)
+            end do
+        end select
     end subroutine
 
 ! ******************************************************************************
@@ -210,17 +323,19 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine create_c32_matrix(x, xmin, xmax)
+    module subroutine create_c32_matrix(x, xmin, xmax, mtype)
         ! Arguments
         complex(real32), intent(out) :: x(:,:)
         complex(real32), intent(in), optional :: xmin, xmax
+        integer(int32), intent(in), optional :: mtype
 
         ! Local Variables
+        complex(real64), parameter :: zero = (0.0, 0.0)
         complex(real32), parameter :: one = (1.0, 0.0)
         real(real32), parameter :: tol = 0.99
         complex(real32) :: low, high
         real(real32), allocatable, dimension(:,:) :: xr, xi
-        integer(int32) :: m, n
+        integer(int32) :: i, j, m, n, mt, mn
 
         ! Process
         m = size(x, 1)
@@ -237,9 +352,44 @@ contains
         else
             high = one
         end if
+        if (present(mtype)) then
+            mt = mtype
+        else
+            mt = GENERAL_MATRIX
+        end if
+        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
         call random_number(xr)
         call random_number(xi)
         x = tol * (low + (high + one - low) * cmplx(xr, xi, real32))
+
+        m = size(x, 1)
+        n = size(x, 2)
+        mn = min(m, n)
+        select case (mt)
+        case (SYMMETRIC_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = x(j,i)
+                end do
+            end do
+        case (UPPER_TRIANGULAR_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
+            end do
+        case (LOWER_TRIANGULAR_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+            end do
+        case (POSITIVE_DEFINITE_MATRIX)
+            x = (x + transpose(conjg(x))) / 2
+            do i = 1, mn
+                x(i,i) = x(i,i) + mn * abs(high)
+            end do
+        end select
     end subroutine
 
 ! ******************************************************************************
@@ -272,15 +422,18 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine create_i16_matrix(x, xmin, xmax)
+    module subroutine create_i16_matrix(x, xmin, xmax, mtype)
         ! Arguments
         integer(int16), intent(out) :: x(:,:)
         integer(int16), intent(in), optional :: xmin, xmax
+        integer(int32), intent(in), optional :: mtype
 
         ! Local Variables
+        integer(int16), parameter :: zero = 0
         integer(int16), parameter :: one = 1
         integer(int16) :: low, high
         real(real64), allocatable :: u(:,:)
+        integer(int32) :: i, j, mt, m, n, mn
 
         ! Process
         if (present(xmin)) then
@@ -293,9 +446,44 @@ contains
         else
             high = one
         end if
+        if (present(mtype)) then
+            mt = mtype
+        else
+            mt = GENERAL_MATRIX
+        end if
+        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
         allocate(u(size(x, 1), size(x, 2)))
         call random_number(u)
         x = low + floor((high + one - low) * u)
+
+        m = size(x, 1)
+        n = size(x, 2)
+        mn = min(m, n)
+        select case (mt)
+        case (SYMMETRIC_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = x(j,i)
+                end do
+            end do
+        case (UPPER_TRIANGULAR_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
+            end do
+        case (LOWER_TRIANGULAR_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+            end do
+        case (POSITIVE_DEFINITE_MATRIX)
+            x = (x + transpose(x)) / 2
+            do i = 1, mn
+                x(i,i) = x(i,i) + mn * abs(high)
+            end do
+        end select
     end subroutine
 
 ! ******************************************************************************
@@ -328,14 +516,16 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine create_i32_matrix(x, xmin, xmax)
+    module subroutine create_i32_matrix(x, xmin, xmax, mtype)
         ! Arguments
         integer(int32), intent(out) :: x(:,:)
         integer(int32), intent(in), optional :: xmin, xmax
+        integer(int32), intent(in), optional :: mtype
 
         ! Local Variables
+        integer(int32), parameter :: zero = 0
         integer(int32), parameter :: one = 1
-        integer(int32) :: low, high
+        integer(int32) :: low, high, i, j, mt, m, n, mn
         real(real64), allocatable :: u(:,:)
 
         ! Process
@@ -349,9 +539,44 @@ contains
         else
             high = one
         end if
+        if (present(mtype)) then
+            mt = mtype
+        else
+            mt = GENERAL_MATRIX
+        end if
+        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
         allocate(u(size(x, 1), size(x, 2)))
         call random_number(u)
         x = low + floor((high + one - low) * u)
+
+        m = size(x, 1)
+        n = size(x, 2)
+        mn = min(m, n)
+        select case (mt)
+        case (SYMMETRIC_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = x(j,i)
+                end do
+            end do
+        case (UPPER_TRIANGULAR_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
+            end do
+        case (LOWER_TRIANGULAR_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+            end do
+        case (POSITIVE_DEFINITE_MATRIX)
+            x = (x + transpose(x)) / 2
+            do i = 1, mn
+                x(i,i) = x(i,i) + mn * abs(high)
+            end do
+        end select
     end subroutine
 
 ! ******************************************************************************
@@ -384,15 +609,18 @@ contains
     end subroutine
 
 ! ------------------------------------------------------------------------------
-    module subroutine create_i64_matrix(x, xmin, xmax)
+    module subroutine create_i64_matrix(x, xmin, xmax, mtype)
         ! Arguments
         integer(int64), intent(out) :: x(:,:)
         integer(int64), intent(in), optional :: xmin, xmax
+        integer(int32), intent(in), optional :: mtype
 
         ! Local Variables
+        integer(int64), parameter :: zero = 0
         integer(int64), parameter :: one = 1
         integer(int64) :: low, high
         real(real64), allocatable :: u(:,:)
+        integer(int32) :: i, j, mt, m, n, mn
 
         ! Process
         if (present(xmin)) then
@@ -405,9 +633,44 @@ contains
         else
             high = one
         end if
+        if (present(mtype)) then
+            mt = mtype
+        else
+            mt = GENERAL_MATRIX
+        end if
+        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
         allocate(u(size(x, 1), size(x, 2)))
         call random_number(u)
         x = low + floor((high + one - low) * u)
+
+        m = size(x, 1)
+        n = size(x, 2)
+        mn = min(m, n)
+        select case (mt)
+        case (SYMMETRIC_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = x(j,i)
+                end do
+            end do
+        case (UPPER_TRIANGULAR_MATRIX)
+            do j = 1, mn
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
+            end do
+        case (LOWER_TRIANGULAR_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+            end do
+        case (POSITIVE_DEFINITE_MATRIX)
+            x = (x + transpose(x)) / 2
+            do i = 1, mn
+                x(i,i) = x(i,i) + mn * abs(high)
+            end do
+        end select
     end subroutine
 
 ! ------------------------------------------------------------------------------

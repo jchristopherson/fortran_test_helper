@@ -5,6 +5,23 @@ module fortran_test_helper
     private
     public :: assert
     public :: create_random_array
+    public :: GENERAL_MATRIX
+    public :: SYMMETRIC_MATRIX
+    public :: UPPER_TRIANGULAR_MATRIX
+    public :: LOWER_TRIANGULAR_MATRIX
+    public :: POSITIVE_DEFINITE_MATRIX
+
+    !> @brief Denotes a general matrix.
+    integer(int32), parameter :: GENERAL_MATRIX = 0
+    !> @brief Denotes a symmetric matrix.
+    integer(int32), parameter :: SYMMETRIC_MATRIX = 1
+    !> @brief Denotes an upper triangular matrix.
+    integer(int32), parameter :: UPPER_TRIANGULAR_MATRIX = 2
+    !> @brief Denotes a lower triangular matrix.
+    integer(int32), parameter :: LOWER_TRIANGULAR_MATRIX = 3
+    !> @brief Denotes a positive-definite matrix.
+    integer(int32), parameter :: POSITIVE_DEFINITE_MATRIX = 4
+
 
     !> Asserts that two items are equal.
     !!
@@ -270,6 +287,13 @@ module fortran_test_helper
     !!  values.  The default is -1.
     !! @param[in] xmax An optional value defining the maximum range of random
     !!  values.  The default is 1.
+    !! @param[in] mtype The type of matrix to create.  The following options are
+    !!  available.
+    !!  - GENERAL_MATRIX
+    !!  - SYMMETRIC_MATRIX
+    !!  - UPPER_TRIANGULAR_MATRIX
+    !!  - LOWER_TRIANGULAR_MATRIX
+    !!  - POSITIVE_DEFINITE_MATRIX
     interface create_random_array
         module procedure :: create_r32_array
         module procedure :: create_r32_matrix
@@ -293,18 +317,20 @@ module fortran_test_helper
             real(real32), intent(in), optional :: xmin, xmax
         end subroutine
 
-        module subroutine create_r32_matrix(x, xmin, xmax)
+        module subroutine create_r32_matrix(x, xmin, xmax, mtype)
             real(real32), intent(out) :: x(:,:)
             real(real32), intent(in), optional :: xmin, xmax
+            integer(int32), intent(in), optional :: mtype
         end subroutine
 
         module subroutine create_r64_array(x, xmin, xmax)
             real(real64), intent(out) :: x(:)
             real(real64), intent(in), optional :: xmin, xmax
         end subroutine
-        module subroutine create_r64_matrix(x, xmin, xmax)
+        module subroutine create_r64_matrix(x, xmin, xmax, mtype)
             real(real64), intent(out) :: x(:,:)
             real(real64), intent(in), optional :: xmin, xmax
+            integer(int32), intent(in), optional :: mtype
         end subroutine
 
         module subroutine create_c64_array(x, xmin, xmax)
@@ -312,9 +338,10 @@ module fortran_test_helper
             complex(real64), intent(in), optional :: xmin, xmax
         end subroutine
 
-        module subroutine create_c64_matrix(x, xmin, xmax)
+        module subroutine create_c64_matrix(x, xmin, xmax, mtype)
             complex(real64), intent(out) :: x(:,:)
             complex(real64), intent(in), optional :: xmin, xmax
+            integer(int32), intent(in), optional :: mtype
         end subroutine
 
         module subroutine create_c32_array(x, xmin, xmax)
@@ -322,9 +349,10 @@ module fortran_test_helper
             complex(real32), intent(in), optional :: xmin, xmax
         end subroutine
 
-        module subroutine create_c32_matrix(x, xmin, xmax)
+        module subroutine create_c32_matrix(x, xmin, xmax, mtype)
             complex(real32), intent(out) :: x(:,:)
             complex(real32), intent(in), optional :: xmin, xmax
+            integer(int32), intent(in), optional :: mtype
         end subroutine
 
         module subroutine create_i16_array(x, xmin, xmax)
@@ -332,9 +360,10 @@ module fortran_test_helper
             integer(int16), intent(in), optional :: xmin, xmax
         end subroutine
 
-        module subroutine create_i16_matrix(x, xmin, xmax)
+        module subroutine create_i16_matrix(x, xmin, xmax, mtype)
             integer(int16), intent(out) :: x(:,:)
             integer(int16), intent(in), optional :: xmin, xmax
+            integer(int32), intent(in), optional :: mtype
         end subroutine
 
         module subroutine create_i32_array(x, xmin, xmax)
@@ -342,9 +371,10 @@ module fortran_test_helper
             integer(int32), intent(in), optional :: xmin, xmax
         end subroutine
 
-        module subroutine create_i32_matrix(x, xmin, xmax)
+        module subroutine create_i32_matrix(x, xmin, xmax, mtype)
             integer(int32), intent(out) :: x(:,:)
             integer(int32), intent(in), optional :: xmin, xmax
+            integer(int32), intent(in), optional :: mtype
         end subroutine
 
         module subroutine create_i64_array(x, xmin, xmax)
@@ -352,9 +382,10 @@ module fortran_test_helper
             integer(int64), intent(in), optional :: xmin, xmax
         end subroutine
 
-        module subroutine create_i64_matrix(x, xmin, xmax)
+        module subroutine create_i64_matrix(x, xmin, xmax, mtype)
             integer(int64), intent(out) :: x(:,:)
             integer(int64), intent(in), optional :: xmin, xmax
+            integer(int32), intent(in), optional :: mtype
         end subroutine
     end interface
 
