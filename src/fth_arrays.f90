@@ -58,13 +58,12 @@ contains
         else
             mt = GENERAL_MATRIX
         end if
-        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
-        call random_number(x)
-        x = tol * (low + (high + one - low) * x)
-
         m = size(x, 1)
         n = size(x, 2)
         mn = min(m, n)
+        allocate(u(m, n))
+        call random_number(u)
+        x = low + floor((high + one - low) * u)
         select case (mt)
         case (SYMMETRIC_MATRIX)
             do j = 1, mn
@@ -86,6 +85,15 @@ contains
             end do
         case (POSITIVE_DEFINITE_MATRIX)
             x(1:mn,1:mn) = matmul(x(1:mn,1:mn), transpose(x(1:mn,1:mn)))
+        case (DIAGONAL_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
+            end do
         end select
     end subroutine
 
@@ -147,13 +155,12 @@ contains
         else
             mt = GENERAL_MATRIX
         end if
-        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
-        call random_number(x)
-        x = tol * (low + (high + one - low) * x)
-        
         m = size(x, 1)
         n = size(x, 2)
         mn = min(m, n)
+        allocate(u(m, n))
+        call random_number(u)
+        x = low + floor((high + one - low) * u)
         select case (mt)
         case (SYMMETRIC_MATRIX)
             do j = 1, mn
@@ -175,6 +182,15 @@ contains
             end do
         case (POSITIVE_DEFINITE_MATRIX)
             x(1:mn,1:mn) = matmul(x(1:mn,1:mn), transpose(x(1:mn,1:mn)))
+        case (DIAGONAL_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
+            end do
         end select
     end subroutine
 
@@ -230,6 +246,7 @@ contains
         ! Process
         m = size(x, 1)
         n = size(x, 2)
+        mn = min(m, n)
         allocate(xr(m, n))
         allocate(xi(m, n))
         if (present(xmin)) then
@@ -247,14 +264,9 @@ contains
         else
             mt = GENERAL_MATRIX
         end if
-        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
         call random_number(xr)
         call random_number(xi)
         x = tol * (low + (high + one - low) * cmplx(xr, xi, real64))
-
-        m = size(x, 1)
-        n = size(x, 2)
-        mn = min(m, n)
         select case (mt)
         case (SYMMETRIC_MATRIX)
             do j = 1, mn
@@ -278,6 +290,15 @@ contains
             x(1:mn,1:mn) = matmul(x(1:mn,1:mn), conjg(transpose(x(1:mn,1:mn))))
             do i = 1, mn
                 x(i,i) = real(x(i,i))
+            end do
+        case (DIAGONAL_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
             end do
         end select
     end subroutine
@@ -334,6 +355,7 @@ contains
         ! Process
         m = size(x, 1)
         n = size(x, 2)
+        mn = min(m, n)
         allocate(xr(m, n))
         allocate(xi(m, n))
         if (present(xmin)) then
@@ -351,14 +373,9 @@ contains
         else
             mt = GENERAL_MATRIX
         end if
-        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
         call random_number(xr)
         call random_number(xi)
         x = tol * (low + (high + one - low) * cmplx(xr, xi, real32))
-
-        m = size(x, 1)
-        n = size(x, 2)
-        mn = min(m, n)
         select case (mt)
         case (SYMMETRIC_MATRIX)
             do j = 1, mn
@@ -382,6 +399,15 @@ contains
             x(1:mn,1:mn) = matmul(x(1:mn,1:mn), conjg(transpose(x(1:mn,1:mn))))
             do i = 1, mn
                 x(i,i) = real(x(i,i))
+            end do
+        case (DIAGONAL_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
             end do
         end select
     end subroutine
@@ -445,14 +471,12 @@ contains
         else
             mt = GENERAL_MATRIX
         end if
-        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
-        allocate(u(size(x, 1), size(x, 2)))
-        call random_number(u)
-        x = low + floor((high + one - low) * u)
-
         m = size(x, 1)
         n = size(x, 2)
         mn = min(m, n)
+        allocate(u(m, n))
+        call random_number(u)
+        x = low + floor((high + one - low) * u)
         select case (mt)
         case (SYMMETRIC_MATRIX)
             do j = 1, mn
@@ -474,6 +498,15 @@ contains
             end do
         case (POSITIVE_DEFINITE_MATRIX)
             x(1:mn,1:mn) = matmul(x(1:mn,1:mn), transpose(x(1:mn,1:mn)))
+        case (DIAGONAL_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
+            end do
         end select
     end subroutine
 
@@ -535,14 +568,12 @@ contains
         else
             mt = GENERAL_MATRIX
         end if
-        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
-        allocate(u(size(x, 1), size(x, 2)))
-        call random_number(u)
-        x = low + floor((high + one - low) * u)
-
         m = size(x, 1)
         n = size(x, 2)
         mn = min(m, n)
+        allocate(u(m, n))
+        call random_number(u)
+        x = low + floor((high + one - low) * u)
         select case (mt)
         case (SYMMETRIC_MATRIX)
             do j = 1, mn
@@ -564,6 +595,15 @@ contains
             end do
         case (POSITIVE_DEFINITE_MATRIX)
             x(1:mn,1:mn) = matmul(x(1:mn,1:mn), transpose(x(1:mn,1:mn)))
+        case (DIAGONAL_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
+            end do
         end select
     end subroutine
 
@@ -626,14 +666,12 @@ contains
         else
             mt = GENERAL_MATRIX
         end if
-        if (mt < 0 .or. mt > POSITIVE_DEFINITE_MATRIX) mt = GENERAL_MATRIX
-        allocate(u(size(x, 1), size(x, 2)))
-        call random_number(u)
-        x = low + floor((high + one - low) * u)
-
         m = size(x, 1)
         n = size(x, 2)
         mn = min(m, n)
+        allocate(u(m, n))
+        call random_number(u)
+        x = low + floor((high + one - low) * u)
         select case (mt)
         case (SYMMETRIC_MATRIX)
             do j = 1, mn
@@ -655,6 +693,15 @@ contains
             end do
         case (POSITIVE_DEFINITE_MATRIX)
             x(1:mn,1:mn) = matmul(x(1:mn,1:mn), transpose(x(1:mn,1:mn)))
+        case (DIAGONAL_MATRIX)
+            do j = 1, n
+                do i = 1, min(m, j - 1)
+                    x(i,j) = zero
+                end do
+                do i = j + 1, m
+                    x(i,j) = zero
+                end do
+            end do
         end select
     end subroutine
 

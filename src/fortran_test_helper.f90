@@ -10,6 +10,7 @@ module fortran_test_helper
     public :: UPPER_TRIANGULAR_MATRIX
     public :: LOWER_TRIANGULAR_MATRIX
     public :: POSITIVE_DEFINITE_MATRIX
+    public :: DIAGONAL_MATRIX
 
     !> @brief Denotes a general matrix.
     integer(int32), parameter :: GENERAL_MATRIX = 0
@@ -21,6 +22,8 @@ module fortran_test_helper
     integer(int32), parameter :: LOWER_TRIANGULAR_MATRIX = 3
     !> @brief Denotes a positive-definite matrix.
     integer(int32), parameter :: POSITIVE_DEFINITE_MATRIX = 4
+    !> @brief Denotes a diagonal matrix.
+    integer(int32), parameter :: DIAGONAL_MATRIX = 5
 
 
     !> Asserts that two items are equal.
