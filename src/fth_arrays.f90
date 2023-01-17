@@ -85,7 +85,7 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = matmul(x, transpose(x))
+            x(1:mn,1:mn) = matmul(x(1:mn,1:mn), transpose(x(1:mn,1:mn)))
         end select
     end subroutine
 
@@ -174,7 +174,7 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = matmul(x, transpose(x))
+            x(1:mn,1:mn) = matmul(x(1:mn,1:mn), transpose(x(1:mn,1:mn)))
         end select
     end subroutine
 
@@ -275,7 +275,10 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = matmul(x, conjg(transpose(x)))
+            x(1:mn,1:mn) = matmul(x(1:mn,1:mn), conjg(transpose(x(1:mn,1:mn))))
+            do i = 1, mn
+                x(i,i) = real(x(i,i))
+            end do
         end select
     end subroutine
 
@@ -376,7 +379,10 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = matmul(x, conjg(transpose(x)))
+            x(1:mn,1:mn) = matmul(x(1:mn,1:mn), conjg(transpose(x(1:mn,1:mn))))
+            do i = 1, mn
+                x(i,i) = real(x(i,i))
+            end do
         end select
     end subroutine
 
@@ -467,7 +473,7 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = matmul(x, transpose(x))
+            x(1:mn,1:mn) = matmul(x(1:mn,1:mn), transpose(x(1:mn,1:mn)))
         end select
     end subroutine
 
@@ -557,7 +563,7 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = matmul(x, transpose(x))
+            x(1:mn,1:mn) = matmul(x(1:mn,1:mn), transpose(x(1:mn,1:mn)))
         end select
     end subroutine
 
@@ -648,7 +654,7 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = matmul(x, transpose(x))
+            x(1:mn,1:mn) = matmul(x(1:mn,1:mn), transpose(x(1:mn,1:mn)))
         end select
     end subroutine
 
