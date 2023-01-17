@@ -61,9 +61,8 @@ contains
         m = size(x, 1)
         n = size(x, 2)
         mn = min(m, n)
-        allocate(u(m, n))
-        call random_number(u)
-        x = low + floor((high + one - low) * u)
+        call random_number(x)
+        x = low + floor((high + one - low) * x)
         select case (mt)
         case (SYMMETRIC_MATRIX)
             do j = 1, mn
@@ -158,9 +157,8 @@ contains
         m = size(x, 1)
         n = size(x, 2)
         mn = min(m, n)
-        allocate(u(m, n))
-        call random_number(u)
-        x = low + floor((high + one - low) * u)
+        call random_number(x)
+        x = low + floor((high + one - low) * x)
         select case (mt)
         case (SYMMETRIC_MATRIX)
             do j = 1, mn
