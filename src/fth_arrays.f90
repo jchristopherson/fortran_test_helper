@@ -223,7 +223,9 @@ contains
         end if
         call random_number(xr)
         call random_number(xi)
-        x = tol * (low + (high + one - low) * cmplx(xr, xi, real64))
+        xr = tol * (low + (high + one - low) * xr)
+        xi = tol * (low + (high + one - low) * xi)
+        x = cmplx(xr, xi, real32)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -264,7 +266,9 @@ contains
         end if
         call random_number(xr)
         call random_number(xi)
-        x = tol * (low + (high + one - low) * cmplx(xr, xi, real64))
+        xr = tol * (low + (high + one - low) * xr)
+        xi = tol * (low + (high + one - low) * xi)
+        x = cmplx(xr, xi, real32)
         select case (mt)
         case (SYMMETRIC_MATRIX)
             do j = 1, mn
@@ -332,7 +336,9 @@ contains
         end if
         call random_number(xr)
         call random_number(xi)
-        x = tol * (low + (high + one - low) * cmplx(xr, xi, real32))
+        xr = tol * (low + (high + one - low) * xr)
+        xi = tol * (low + (high + one - low) * xi)
+        x = cmplx(xr, xi, real32)
     end subroutine
 
 ! ------------------------------------------------------------------------------
@@ -373,7 +379,9 @@ contains
         end if
         call random_number(xr)
         call random_number(xi)
-        x = tol * (low + (high + one - low) * cmplx(xr, xi, real32))
+        xr = tol * (low + (high + one - low) * xr)
+        xi = tol * (low + (high + one - low) * xi)
+        x = cmplx(xr, xi, real32)
         select case (mt)
         case (SYMMETRIC_MATRIX)
             do j = 1, mn
