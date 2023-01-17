@@ -85,10 +85,7 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = (x + transpose(x)) / 2
-            do i = 1, mn
-                x(i,i) = x(i,i) + mn * abs(high)
-            end do
+            x = matmul(x, transpose(x))
         end select
     end subroutine
 
@@ -177,10 +174,7 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = (x + transpose(x)) / 2
-            do i = 1, mn
-                x(i,i) = x(i,i) + mn * abs(high)
-            end do
+            x = matmul(x, transpose(x))
         end select
     end subroutine
 
@@ -281,10 +275,7 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = (x + transpose(conjg(x))) / 2
-            do i = 1, mn
-                x(i,i) = x(i,i) + mn * abs(high)
-            end do
+            x = matmul(x, conjg(transpose(x)))
         end select
     end subroutine
 
@@ -385,10 +376,7 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = (x + transpose(conjg(x))) / 2
-            do i = 1, mn
-                x(i,i) = x(i,i) + mn * abs(high)
-            end do
+            x = matmul(x, conjg(transpose(x)))
         end select
     end subroutine
 
@@ -479,10 +467,7 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = (x + transpose(x)) / 2
-            do i = 1, mn
-                x(i,i) = x(i,i) + mn * abs(high)
-            end do
+            x = matmul(x, transpose(x))
         end select
     end subroutine
 
@@ -572,10 +557,7 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = (x + transpose(x)) / 2
-            do i = 1, mn
-                x(i,i) = x(i,i) + mn * abs(high)
-            end do
+            x = matmul(x, transpose(x))
         end select
     end subroutine
 
@@ -666,10 +648,7 @@ contains
                 end do
             end do
         case (POSITIVE_DEFINITE_MATRIX)
-            x = (x + transpose(x)) / 2
-            do i = 1, mn
-                x(i,i) = x(i,i) + mn * abs(high)
-            end do
+            x = matmul(x, transpose(x))
         end select
     end subroutine
 
