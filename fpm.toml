@@ -1,0 +1,17 @@
+name = "fortran_test_helper"
+author = "Jason Christopherson"
+maintainer = "Jason Christopherson"
+license = "GL-3.0"
+description = "A Fortran library to provide assistance to testing."
+homepage = "https://github.com/jchristopherson/fortran_test_helper"
+
+[build]
+auto-executables = true
+auto-examples = true
+auto-tests = true
+
+[library]
+source-dir = "src"
+
+[install]
+library = true
