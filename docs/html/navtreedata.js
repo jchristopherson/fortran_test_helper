@@ -26,7 +26,11 @@ var NAVTREE =
 [
   [ "fortran_test_helper", "index.html", [
     [ "Modules", "namespaces.html", [
-      [ "Modules List", "namespaces.html", "namespaces_dup" ]
+      [ "Modules List", "namespaces.html", "namespaces_dup" ],
+      [ "Module Members", "namespacemembers.html", [
+        [ "All", "namespacemembers.html", null ],
+        [ "Variables", "namespacemembers_vars.html", null ]
+      ] ]
     ] ],
     [ "Data Types List", "annotated.html", [
       [ "Data Types List", "annotated.html", "annotated_dup" ],

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>fortran_test_helper: fortran_test_helper::create_random_array Interface Reference</title>
+<title>fortran_test_helper: fortran_test_helper::assert Interface Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -71,7 +71,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('interfacefortran__test__helper_1_1create__random__array.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('interfacefortran__test__helper_1_1assert.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -98,15 +98,15 @@ $(document).ready(function(){initNavTree('interfacefortran__test__helper_1_1crea
 
 <div class="header">
   <div class="summary">
-<a href="interfacefortran__test__helper_1_1create__random__array-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">fortran_test_helper::create_random_array Interface Reference</div></div>
+<a href="interfacefortran__test__helper_1_1assert-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">fortran_test_helper::assert Interface Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p>Creates a random-valued array.  
- <a href="interfacefortran__test__helper_1_1create__random__array.html#details">More...</a></p>
+<p>Asserts that two items are equal.  
+ <a href="interfacefortran__test__helper_1_1assert.html#details">More...</a></p>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p >Creates a random-valued array. </p>
+<div class="textblock"><p >Asserts that two items are equal. </p>
 <dl class="section user"><dt>Supported Data Types</dt><dd><ul>
 <li>real(real32)</li>
 <li>real(real64)</li>
@@ -117,28 +117,45 @@ $(document).ready(function(){initNavTree('interfacefortran__test__helper_1_1crea
 <li>integer(int64)</li>
 </ul>
 </dd></dl>
-<dl class="section user"><dt>Syntax 1</dt><dd>Populates a 1D array with random values. <div class="fragment"><div class="line"><span class="keyword">subroutine </span>create_random_array(T x(:), optional t xmin, optional t xmax)</div>
+<dl class="section user"><dt>Syntax 1</dt><dd>Compares scalar values. <div class="fragment"><div class="line"><span class="keyword">logical </span><span class="keyword">function </span>assert(T x, T y, optional T tol)</div>
 </div><!-- fragment --> Where T is the one of the types previously mentioned.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">x</td><td>The array to populate. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">xmin</td><td>An optional value defining the minimum range of random values. The default is -1. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">xmax</td><td>An optional value defining the maximum range of random values. The default is 1.</td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The first item. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The second item. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">tol</td><td>An optional value, only for the floating-point types, that specifies the comparison tolerance. The default value is the square root of the machine epsilon.</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section user"><dt>Syntax 2</dt><dd>Populates a matrix with random values. <div class="fragment"><div class="line"><span class="keyword">subroutine </span>create_random_array(T x(:,:), optional t xmin, optional t xmax)</div>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if all items in <code>x</code> and <code>y</code> are equivalent; else, returns false.</dd></dl>
+<dl class="section user"><dt>Syntax 2</dt><dd>Compares 1D arrays. <div class="fragment"><div class="line"><span class="keyword">logical </span><span class="keyword">function </span>assert(T x(:), t y(:), optional t tol, optional integer(int32) flag)</div>
 </div><!-- fragment --> Where T is the one of the types previously mentioned.</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramdir">[out]</td><td class="paramname">x</td><td>The matrix to populate. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">xmin</td><td>An optional value defining the minimum range of random values. The default is -1. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">xmax</td><td>An optional value defining the maximum range of random values. The default is 1. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The first item. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The second item. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">tol</td><td>An optional value, only for the floating-point types, that specifies the comparison tolerance. The default value is the square root of the machine epsilon. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">flag</td><td>An optional 32-bit integer (int32) output that returns a value of -1 if <code>x</code> and <code>y</code> are different sizes; else, returns the index of the first non-equivalent items.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if all items in <code>x</code> and <code>y</code> are equivalent; else, returns false.</dd></dl>
+<dl class="section user"><dt>Syntax 3</dt><dd>Compares matrices. <div class="fragment"><div class="line"><span class="keyword">logical </span><span class="keyword">function </span>assert(T x(:,:), t y(:,:), optional t tol, optional integer(int32) flag, optional integer(int32) row, optional integer(int32) col)</div>
+</div><!-- fragment --> Where T is the one of the types previously mentioned.</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">x</td><td>The first item. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">y</td><td>The second item. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">tol</td><td>An optional value, only for the floating-point types, that specifies the comparison tolerance. The default value is the square root of the machine epsilon. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">flag</td><td>An optional 32-bit integer (int32) output that returns a value of -1 if <code>x</code> and <code>y</code> are different sizes, returns the column-major index of the first value that is not equivalent, or returns zero in the event of equivalance. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">row</td><td>An optional 32-bit integer (int32) output that returns a the row index of the first non-equivalent value encountered; else, returns a value of zero for a successful test. </td></tr>
+    <tr><td class="paramdir">[out]</td><td class="paramname">col</td><td>An optional 32-bit integer (int32) output that returns a the column index of the first non-equivalent value encountered; else, returns a value of zero for a successful test.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Returns true if all items in <code>x</code> and <code>y</code> are equivalent; else, returns false. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="fortran__test__helper_8f90_source.html#l00273">273</a> of file <a class="el" href="fortran__test__helper_8f90_source.html">fortran_test_helper.f90</a>.</p>
+<p class="definition">Definition at line <a class="el" href="fortran__test__helper_8f90_source.html#l00100">100</a> of file <a class="el" href="fortran__test__helper_8f90_source.html">fortran_test_helper.f90</a>.</p>
 </div><hr/>The documentation for this interface was generated from the following file:<ul>
 <li>D:/Code/fortran_test_helper/src/<a class="el" href="fortran__test__helper_8f90_source.html">fortran_test_helper.f90</a></li>
 </ul>
@@ -147,7 +164,7 @@ $(document).ready(function(){initNavTree('interfacefortran__test__helper_1_1crea
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespacefortran__test__helper.html">fortran_test_helper</a></li><li class="navelem"><a class="el" href="interfacefortran__test__helper_1_1create__random__array.html">create_random_array</a></li>
+    <li class="navelem"><a class="el" href="namespacefortran__test__helper.html">fortran_test_helper</a></li><li class="navelem"><a class="el" href="interfacefortran__test__helper_1_1assert.html">assert</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.5 </li>
   </ul>
 </div>
