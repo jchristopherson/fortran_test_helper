@@ -1,5 +1,3 @@
-include("${PROJECT_SOURCE_DIR}/cmake/helper.cmake")
-
 set(fth_test_sources
     test_fth.f90
     test_fth_asserts.f90
@@ -8,9 +6,19 @@ set(fth_test_sources
 
 # Build the tests
 add_executable(fth_test ${fth_test_sources})
-link_library(fth_test fortran_test_helper ${PROJECT_INCLUDE_DIR})
+target_link_libraries(fth_test fortran_test_helper)
 add_test(
     NAME fth_test
     WORKING_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
     COMMAND $<TARGET_FILE:fth_test>
 )
+
+if (${BUILD_SHARED_LIBS})
+    add_custom_command(
+        TARGET fth_test
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        $<TARGET_FILE:fortran_test_helper>
+        ${CMAKE_BINARY_DIR}/test
+    )
+endif()
