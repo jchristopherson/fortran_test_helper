@@ -8,7 +8,7 @@ A Fortran library to provide assistance to testing.
 ## Build with CMake
 This library can also be built using CMake.  For instructions see [Running CMake](https://cmake.org/runningcmake/).  CMake version 3.24 or higher is required.
 
-## Building PEAKS with FPM
+## Building with FPM
 This library can be built using Fortran Package Manager (fpm) using the supplied `fpm.toml`.
 ```bash
 fpm build
